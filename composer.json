@@ -1,0 +1,20 @@
+{
+    "name": "ordermind/drupal--tengstrom-shared",
+    "description": "Shared code for the Tengstrom Drupal profile that does not fit within a module",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ordermind\\DrupalTengstromShared\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kristofer Tengström",
+            "email": "kristofer@tengstrom.nl"
+        }
+    ],
+    "require": {
+        "drupal/core": "^9|^10"
+    }
+}
