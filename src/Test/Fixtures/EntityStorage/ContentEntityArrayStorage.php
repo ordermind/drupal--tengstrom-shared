@@ -23,6 +23,13 @@ class ContentEntityArrayStorage extends ContentEntityStorageBase {
   /**
    * {@inheritDoc}
    */
+  protected function initFieldValues(ContentEntityInterface $entity, array $values = [], array $field_names = []) {
+
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   protected function readFieldItemsToPurge(FieldDefinitionInterface $field_definition, $batch_size) {}
 
   /**
