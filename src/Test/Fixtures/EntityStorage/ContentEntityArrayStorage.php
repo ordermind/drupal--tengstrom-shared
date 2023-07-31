@@ -23,46 +23,54 @@ class ContentEntityArrayStorage extends ContentEntityStorageBase {
   /**
    * {@inheritDoc}
    */
-  protected function initFieldValues(ContentEntityInterface $entity, array $values = [], array $field_names = []) {
+  public function create(array $values = []) {
+    if (!isset($values['id'])) {
+      $values['id'] = $this->count() + 1;
+    }
 
+    return parent::create($values);
   }
 
   /**
    * {@inheritDoc}
    */
-  protected function readFieldItemsToPurge(FieldDefinitionInterface $field_definition, $batch_size) {}
+  protected function readFieldItemsToPurge(FieldDefinitionInterface $field_definition, $batch_size) {
+  }
 
   /**
    * {@inheritDoc}
    */
-  protected function purgeFieldItems(ContentEntityInterface $entity, FieldDefinitionInterface $field_definition) {}
+  protected function purgeFieldItems(ContentEntityInterface $entity, FieldDefinitionInterface $field_definition) {
+  }
 
   /**
    * {@inheritDoc}
    */
-  protected function doLoadMultipleRevisionsFieldItems($revision_ids) {}
+  protected function doLoadMultipleRevisionsFieldItems($revision_ids) {
+  }
 
   /**
    * {@inheritDoc}
    */
   protected function doSaveFieldItems(ContentEntityInterface $entity, array $names = []) {
-    if ($entity->isNew()) {
-      $this->items[] = $entity;
+    if (!$entity->id()) {
+      throw new \InvalidArgumentException('Please set the entity id before saving it in this storage.');
     }
-    else {
-      $this->items[$entity->id()] = $entity;
-    }
+
+    $this->items[$entity->id()] = $entity;
   }
 
   /**
    * {@inheritDoc}
    */
-  protected function doDeleteFieldItems($entities) {}
+  protected function doDeleteFieldItems($entities) {
+  }
 
   /**
    * {@inheritDoc}
    */
-  protected function doDeleteRevisionFieldItems(ContentEntityInterface $revision) {}
+  protected function doDeleteRevisionFieldItems(ContentEntityInterface $revision) {
+  }
 
   /**
    * {@inheritDoc}
@@ -78,17 +86,20 @@ class ContentEntityArrayStorage extends ContentEntityStorageBase {
   /**
    * {@inheritDoc}
    */
-  protected function has($id, EntityInterface $entity) {}
+  protected function has($id, EntityInterface $entity) {
+  }
 
   /**
    * {@inheritDoc}
    */
-  protected function getQueryServiceName() {}
+  protected function getQueryServiceName() {
+  }
 
   /**
    * {@inheritDoc}
    */
-  public function countFieldData($storage_definition, $as_bool = FALSE) {}
+  public function countFieldData($storage_definition, $as_bool = FALSE) {
+  }
 
   /**
    * Subtract by one to ignore the zero element.
