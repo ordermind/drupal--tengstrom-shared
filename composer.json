@@ -5,8 +5,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Ordermind\\DrupalTengstromShared\\": "src/",
-            "Ordermind\\DrupalTengstromShared\\Tests\\": "tests/src/"
+            "Ordermind\\DrupalTengstromShared\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ordermind\\DrupalTengstromShared\\Tests\\": "tests"
         }
     },
     "authors": [
