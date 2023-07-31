@@ -10,7 +10,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Ordermind\\DrupalTengstromShared\\Test\\": "tests"
+            "Ordermind\\DrupalTengstromShared\\Test\\": "test"
         }
     },
     "authors": [
