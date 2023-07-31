@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ordermind\DrupalTengstromShared\Tests\Fixtures\Factories;
+namespace Ordermind\DrupalTengstromShared\Test\Fixtures\Factories;
 
 use Drupal\Component\DependencyInjection\Container;
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;

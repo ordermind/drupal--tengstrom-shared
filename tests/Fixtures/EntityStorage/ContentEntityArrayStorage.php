@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ordermind\DrupalTengstromShared\Tests\Fixtures\EntityStorage;
+namespace Ordermind\DrupalTengstromShared\Test\Fixtures\EntityStorage;
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\ContentEntityStorageBase;

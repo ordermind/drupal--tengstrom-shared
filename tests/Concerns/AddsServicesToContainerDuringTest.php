@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ordermind\DrupalTengstromShared\Tests\Concerns;
+namespace Ordermind\DrupalTengstromShared\Test\Concerns;
 
 trait AddsServicesToContainerDuringTest {
 

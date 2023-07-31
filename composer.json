@@ -8,6 +8,11 @@
             "Ordermind\\DrupalTengstromShared\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Ordermind\\DrupalTengstromShared\\Test\\": "tests"
+        }
+    },
     "authors": [
         {
             "name": "Kristofer Tengström",
