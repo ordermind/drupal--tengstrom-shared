@@ -12,12 +12,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * An entity storage that saves the entities to a PHP array, used for testing purposes.
+ *
+ * @template T of EntityInterface
  */
 class EntityArrayStorage extends EntityStorageBase {
   /**
    * @property object[]
    *
-   * Initialize the zero element with null to simulate that the id counter starts with 1 for new items.
+   * Initialize the zero element with null to simulate that the id counter
+   * starts with 1 for new items.
    */
   protected array $items = [0 => NULL];
 
@@ -27,6 +30,8 @@ class EntityArrayStorage extends EntityStorageBase {
 
   /**
    * {@inheritDoc}
+   *
+   * @param T $entity
    */
   protected function has($id, EntityInterface $entity) {
     return isset($this->items[$id]);
@@ -34,11 +39,19 @@ class EntityArrayStorage extends EntityStorageBase {
 
   /**
    * {@inheritDoc}
+   *
+   * @param T[] $entities
    */
-  protected function doDelete($entities) {}
+  protected function doDelete($entities) {
+    foreach ($entities as $entity) {
+      unset($this->items[$entity->id()]);
+    }
+  }
 
   /**
    * {@inheritDoc}
+   *
+   * @param T $entity
    */
   protected function doSave($id, EntityInterface $entity) {
     $this->items[$id] = $entity;
@@ -61,6 +74,8 @@ class EntityArrayStorage extends EntityStorageBase {
 
   /**
    * {@inheritDoc}
+   *
+   * @return T
    */
   public function create(array $values = []) {
     if (!isset($values['id'])) {
@@ -72,6 +87,8 @@ class EntityArrayStorage extends EntityStorageBase {
 
   /**
    * {@inheritDoc}
+   *
+   * return T[]
    */
   protected function doLoadMultiple(?array $ids = NULL): array {
     if (!$ids) {
@@ -85,7 +102,24 @@ class EntityArrayStorage extends EntityStorageBase {
    * Subtract by one to ignore the zero element.
    */
   public function count(): int {
-    return count($this->items) - 1;
+    return count($this->getAllItemsExceptDummyItem());
+  }
+
+  /**
+   * Load all persisted entities.
+   *
+   * @return T[]
+   */
+  public function loadAll(): array {
+    return $this->getAllItemsExceptDummyItem();
+  }
+
+  /**
+   * @return T[] All items except the first dummy item. Please note that
+   * the items are also reordered.
+   */
+  protected function getAllItemsExceptDummyItem(): array {
+    return array_slice(array_values($this->items), 1);
   }
 
 }
