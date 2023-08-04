@@ -16,14 +16,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @template T of EntityInterface
  */
-class EntityArrayStorage extends EntityStorageBase {
+class ConfigEntityArrayStorage extends EntityStorageBase {
   /**
-   * @property object[]
+   * @property T[string]
    *
-   * Initialize the zero element with null to simulate that the id counter
-   * starts with 1 for new items.
    */
-  protected array $items = [0 => NULL];
+  protected array $items = [];
 
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
     return new static($entity_type, new MemoryCache());
@@ -32,10 +30,11 @@ class EntityArrayStorage extends EntityStorageBase {
   /**
    * {@inheritDoc}
    *
+   * @param string $id
    * @param T $entity
    */
   protected function has($id, EntityInterface $entity) {
-    return $this->hasEntityId((int) $id);
+    return $this->hasEntityId((string) $id);
   }
 
   /**
@@ -52,6 +51,7 @@ class EntityArrayStorage extends EntityStorageBase {
   /**
    * {@inheritDoc}
    *
+   * @param string $id
    * @param T $entity
    */
   protected function doSave($id, EntityInterface $entity) {
@@ -80,7 +80,10 @@ class EntityArrayStorage extends EntityStorageBase {
    */
   public function create(array $values = []) {
     if (!isset($values['id'])) {
-      $values['id'] = $this->count() + 1;
+      throw new \DomainException('The values must contain an id key');
+    }
+    if (!is_string($values['id'])) {
+      throw new \DomainException('The id must be a string');
     }
 
     return parent::create($values);
@@ -88,6 +91,8 @@ class EntityArrayStorage extends EntityStorageBase {
 
   /**
    * {@inheritDoc}
+   *
+   * @param string[]|null $ids
    *
    * return T[]
    */
@@ -102,12 +107,12 @@ class EntityArrayStorage extends EntityStorageBase {
   /**
    * Checks if an entity id exists in the storage.
    */
-  public function hasEntityId(int $entityId): bool {
+  public function hasEntityId(string $entityId): bool {
     return isset($this->items[$entityId]);
   }
 
   public function count(): int {
-    return count($this->getAllItemsExceptDummyItem());
+    return count($this->loadAll());
   }
 
   /**
@@ -116,15 +121,7 @@ class EntityArrayStorage extends EntityStorageBase {
    * @return T[]
    */
   public function loadAll(): array {
-    return $this->getAllItemsExceptDummyItem();
-  }
-
-  /**
-   * @return T[] All items except the first dummy item. Please note that
-   * the items are also reordered.
-   */
-  protected function getAllItemsExceptDummyItem(): array {
-    return array_slice(array_values($this->items), 1);
+    return $this->items;
   }
 
 }
