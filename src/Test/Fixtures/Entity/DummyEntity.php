@@ -7,7 +7,7 @@ namespace Ordermind\DrupalTengstromShared\Test\Fixtures\Entity;
 use Drupal\Core\Entity\EntityBase;
 
 class DummyEntity extends EntityBase {
-  protected int $id;
+  protected int|string $id;
   protected string $label;
 
   protected string $bundle;
@@ -15,7 +15,7 @@ class DummyEntity extends EntityBase {
   protected int $status;
   protected int $created;
 
-  public function getId(): int {
+  public function getId(): int|string {
     return $this->id;
   }
 
