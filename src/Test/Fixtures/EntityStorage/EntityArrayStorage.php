@@ -11,7 +11,8 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * An entity storage that saves the entities to a PHP array, used for testing purposes.
+ * An entity storage that saves the entities to a PHP array,
+ * used for testing purposes.
  *
  * @template T of EntityInterface
  */
@@ -34,7 +35,7 @@ class EntityArrayStorage extends EntityStorageBase {
    * @param T $entity
    */
   protected function has($id, EntityInterface $entity) {
-    return isset($this->items[$id]);
+    return $this->hasEntityId((int) $id);
   }
 
   /**
@@ -99,8 +100,12 @@ class EntityArrayStorage extends EntityStorageBase {
   }
 
   /**
-   * Subtract by one to ignore the zero element.
+   * Checks if an entity id exists in the storage.
    */
+  public function hasEntityId(int $entityId): bool {
+    return isset($this->items[$entityId]);
+  }
+
   public function count(): int {
     return count($this->getAllItemsExceptDummyItem());
   }
