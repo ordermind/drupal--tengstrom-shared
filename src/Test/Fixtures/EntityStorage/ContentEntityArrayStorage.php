@@ -8,6 +8,7 @@ use Drupal\Core\Cache\MemoryCache\MemoryCache;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageBase;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Ordermind\Helpers\ValueObject\Integer\PositiveInteger;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,10 +21,8 @@ class ContentEntityArrayStorage extends EntityStorageBase {
   /**
    * @property ?T[]
    *
-   * Initialize the zero element with null to simulate that the id counter
-   * starts with 1 for new items.
    */
-  protected array $items = [0 => NULL];
+  protected array $items = [];
 
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
     return new static($entity_type, new MemoryCache());
@@ -82,10 +81,23 @@ class ContentEntityArrayStorage extends EntityStorageBase {
    */
   public function create(array $values = []) {
     if (!isset($values['id'])) {
-      $values['id'] = $this->count() + 1;
+      $values['id'] = $this->getNextId();
     }
 
+    // Use value object for validation.
+    new PositiveInteger($values['id']);
+
     return parent::create($values);
+  }
+
+  protected function getNextId(): int {
+    $itemCount = $this->count();
+
+    if ($itemCount) {
+      return $itemCount + 1;
+    }
+
+    return 1;
   }
 
   /**
@@ -111,7 +123,7 @@ class ContentEntityArrayStorage extends EntityStorageBase {
   }
 
   public function count(): int {
-    return count($this->getAllItemsExceptDummyItem());
+    return count($this->items);
   }
 
   /**
@@ -120,15 +132,7 @@ class ContentEntityArrayStorage extends EntityStorageBase {
    * @return T[]
    */
   public function loadAll(): array {
-    return $this->getAllItemsExceptDummyItem();
-  }
-
-  /**
-   * @return T[] All items except the first dummy item. Please note that
-   * the items are also reordered.
-   */
-  protected function getAllItemsExceptDummyItem(): array {
-    return array_slice(array_values($this->items), 1);
+    return $this->items;
   }
 
 }

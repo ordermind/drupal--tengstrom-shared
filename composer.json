@@ -15,6 +15,7 @@
         }
     ],
     "require": {
-        "drupal/core": "^9 || ^10"
+        "drupal/core": "^9 || ^10",
+        "ordermind/php-helpers": "^2.0"
     }
 }
