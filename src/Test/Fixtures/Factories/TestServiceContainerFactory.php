@@ -8,8 +8,9 @@ use Drupal\Component\DependencyInjection\Container;
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 use Drupal\Core\Cache\Context\CacheContextsManager;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Language\LanguageDefault;
 use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\Core\StringTranslation\TranslationManager;
 use Prophecy\Argument;
 use Prophecy\Prophet;
 
@@ -25,8 +26,7 @@ class TestServiceContainerFactory {
     $mockCacheTagsInvalidator = $prophet->prophesize(CacheTagsInvalidatorInterface::class);
     $cacheTagsInvalidator = $mockCacheTagsInvalidator->reveal();
 
-    $mockTranslationService = $prophet->prophesize(TranslationInterface::class);
-    $translationService = $mockTranslationService->reveal();
+    $translationService = new TranslationManager(new LanguageDefault(['id' => 'x-default']));
 
     $mockModuleHandler = $prophet->prophesize(ModuleHandlerInterface::class);
     $moduleHandler = $mockModuleHandler->reveal();
