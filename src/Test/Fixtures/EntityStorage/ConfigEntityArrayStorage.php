@@ -13,12 +13,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * An entity storage that saves the entities to a PHP array,
  * used for testing purposes.
- *
- * @template T of EntityInterface
  */
 class ConfigEntityArrayStorage extends EntityStorageBase {
   /**
-   * @property T[string]
+   * @property EntityInterface[string]
    *
    */
   protected array $items = [];
@@ -31,7 +29,6 @@ class ConfigEntityArrayStorage extends EntityStorageBase {
    * {@inheritDoc}
    *
    * @param string $id
-   * @param T $entity
    */
   protected function has($id, EntityInterface $entity) {
     return $this->hasEntityId((string) $id);
@@ -39,8 +36,6 @@ class ConfigEntityArrayStorage extends EntityStorageBase {
 
   /**
    * {@inheritDoc}
-   *
-   * @param T[] $entities
    */
   protected function doDelete($entities) {
     foreach ($entities as $entity) {
@@ -52,7 +47,6 @@ class ConfigEntityArrayStorage extends EntityStorageBase {
    * {@inheritDoc}
    *
    * @param string $id
-   * @param T $entity
    */
   protected function doSave($id, EntityInterface $entity) {
     $this->items[$id] = $entity;
@@ -75,8 +69,6 @@ class ConfigEntityArrayStorage extends EntityStorageBase {
 
   /**
    * {@inheritDoc}
-   *
-   * @return T
    */
   public function create(array $values = []) {
     if (!isset($values['id'])) {
@@ -93,8 +85,6 @@ class ConfigEntityArrayStorage extends EntityStorageBase {
    * {@inheritDoc}
    *
    * @param string[]|null $ids
-   *
-   * return T[]
    */
   protected function doLoadMultiple(?array $ids = NULL): array {
     if (!$ids) {
