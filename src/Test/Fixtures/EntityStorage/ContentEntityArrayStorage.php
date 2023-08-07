@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ContentEntityArrayStorage extends EntityStorageBase {
   /**
-   * @property ?EntityInterface[]
+   * @property EntityInterface[]
    */
   protected array $items = [];
 
