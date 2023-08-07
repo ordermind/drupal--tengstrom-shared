@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityBase;
 
 class DummyEntity extends EntityBase {
   protected int|string $id;
+  protected ?string $uuid;
   protected string $label;
 
   protected string $bundle;
@@ -17,6 +18,10 @@ class DummyEntity extends EntityBase {
 
   public function getId(): int|string {
     return $this->id;
+  }
+
+  public function getUuid(): ?string {
+    return $this->uuid;
   }
 
   public function getLabel(): string {
