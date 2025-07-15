@@ -35,7 +35,9 @@ class TestServiceContainerFactory {
     $mockLanguageManager = $prophet->prophesize(LanguageManagerInterface::class);
     $languageManager = $mockLanguageManager->reveal();
 
+    $expectedTime = 1690208874;
     $mockTimeService = $prophet->prophesize(TimeInterface::class);
+    $mockTimeService->getRequestTime()->willReturn($expectedTime);
     $timeService = $mockTimeService->reveal();
 
     $container = new Container();
