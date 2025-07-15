@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ordermind\DrupalTengstromShared\Test\Fixtures\EntityStorage;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Cache\MemoryCache\MemoryCache;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageBase;
@@ -22,7 +23,9 @@ class ConfigEntityArrayStorage extends EntityStorageBase {
   protected array $items = [];
 
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
-    return new static($entity_type, new MemoryCache());
+    $timeService = \Drupal::service(TimeInterface::class);
+
+    return new static($entity_type, new MemoryCache($timeService));
   }
 
   /**
