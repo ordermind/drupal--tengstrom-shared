@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ordermind\DrupalTengstromShared\Test\Fixtures\Factories;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\DependencyInjection\Container;
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 use Drupal\Core\Cache\Context\CacheContextsManager;
@@ -34,6 +35,9 @@ class TestServiceContainerFactory {
     $mockLanguageManager = $prophet->prophesize(LanguageManagerInterface::class);
     $languageManager = $mockLanguageManager->reveal();
 
+    $mockTimeService = $prophet->prophesize(TimeInterface::class);
+    $timeService = $mockTimeService->reveal();
+
     $container = new Container();
 
     $container->set('cache_contexts_manager', $cacheContextManager);
@@ -41,6 +45,9 @@ class TestServiceContainerFactory {
     $container->set('string_translation', $translationService);
     $container->set('module_handler', $moduleHandler);
     $container->set('language_manager', $languageManager);
+    $container->set('time', $timeService);
+    $container->set('datetime.time', $timeService);
+    $container->set(TimeInterface::class, $timeService);
 
     return $container;
   }
