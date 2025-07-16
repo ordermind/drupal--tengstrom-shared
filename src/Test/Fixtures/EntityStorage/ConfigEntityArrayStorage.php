@@ -60,7 +60,9 @@ class ConfigEntityArrayStorage extends EntityStorageBase {
   /**
    * {@inheritDoc}
    */
-  protected function getQueryServiceName() {}
+  protected function getQueryServiceName(): string {
+    return '';
+  }
 
   /**
    * {@inheritDoc}
@@ -75,7 +77,7 @@ class ConfigEntityArrayStorage extends EntityStorageBase {
   /**
    * {@inheritDoc}
    */
-  public function create(array $values = []) {
+  public function create(array $values = []): EntityInterface {
     if (!isset($values['id'])) {
       throw new \DomainException('The values must contain an id key');
     }

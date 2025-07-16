@@ -60,7 +60,9 @@ class ContentEntityArrayStorage extends EntityStorageBase {
   /**
    * {@inheritDoc}
    */
-  protected function getQueryServiceName() {}
+  protected function getQueryServiceName(): string {
+    return '';
+  }
 
   /**
    * {@inheritDoc}
@@ -75,7 +77,7 @@ class ContentEntityArrayStorage extends EntityStorageBase {
   /**
    * {@inheritDoc}
    */
-  public function create(array $values = []) {
+  public function create(array $values = []): EntityInterface {
     if (!isset($values['id'])) {
       $values['id'] = $this->getNextId();
     }
