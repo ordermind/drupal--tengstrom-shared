@@ -22,7 +22,7 @@ class ContentEntityArrayStorage extends EntityStorageBase {
    */
   protected array $items = [];
 
-  public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
+  public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type): static {
     $timeService = \Drupal::service(TimeInterface::class);
 
     return new static($entity_type, new MemoryCache($timeService));
@@ -33,7 +33,7 @@ class ContentEntityArrayStorage extends EntityStorageBase {
    *
    * @param int $id
    */
-  protected function has($id, EntityInterface $entity) {
+  protected function has($id, EntityInterface $entity): bool {
     return $this->hasEntityId((int) $id);
   }
 
@@ -51,8 +51,10 @@ class ContentEntityArrayStorage extends EntityStorageBase {
    *
    * @param int $id
    */
-  protected function doSave($id, EntityInterface $entity) {
+  protected function doSave($id, EntityInterface $entity): bool|int {
     $this->items[$id] = $entity;
+
+    return SAVED_NEW;
   }
 
   /**
